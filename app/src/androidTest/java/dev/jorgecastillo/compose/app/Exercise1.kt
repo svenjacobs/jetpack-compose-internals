@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import dev.jorgecastillo.compose.app.ui.composables.NamePlate
+import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 import org.junit.Rule
 import org.junit.Test
 
