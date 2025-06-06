@@ -23,9 +23,9 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -40,12 +40,69 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 @Composable
 fun SpeakersScreen(speakers: List<Speaker>) {
-
+    Scaffold(
+        topBar = { TopAppBar(title = { Text("Speakers") }) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {}) {
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.content_desc_fab_add_speaker),
+                )
+            }
+        }
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier
+                .padding(contentPadding)
+                .verticalScroll(rememberScrollState())
+                .testTag("SpeakersList"),
+        ) {
+            speakers.forEach { speaker ->
+                SpeakerCard(speaker, onClick = {})
+            }
+        }
+    }
 }
 
 @Composable
 fun SpeakerCard(speaker: Speaker, onClick: (Speaker) -> Unit = {}) {
-    
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(dimensionResource(R.dimen.spacing_small)),
+        onClick = { onClick(speaker) },
+    ) {
+        Row(
+            modifier = Modifier.padding(dimensionResource(R.dimen.spacing_regular)),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(dimensionResource(R.dimen.avatar_size))
+                    .clip(CircleShape),
+                painter = painterResource(avatarResForId(speaker.id)),
+                contentScale = ContentScale.Crop,
+                contentDescription = stringResource(
+                    R.string.content_desc_speaker_avatar,
+                    speaker.name
+                ),
+            )
+
+            Column(
+                modifier = Modifier.padding(dimensionResource(R.dimen.spacing_regular)),
+            ) {
+                Text(
+                    speaker.name,
+                    style = MaterialTheme.typography.h6,
+                )
+
+                Text(
+                    speaker.company,
+                    style = MaterialTheme.typography.caption,
+                )
+            }
+        }
+    }
 }
 
 @SuppressLint("DiscouragedApi")
