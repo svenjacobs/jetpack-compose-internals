@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +22,27 @@ import dev.jorgecastillo.compose.app.ui.theme.ComposeAndInternalsTheme
 
 @Composable
 fun LazySpeakersScreen(speakers: List<Speaker>) {
-    
+    Scaffold(
+        topBar = { TopAppBar(title = { Text("Speakers") }) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {}) {
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.content_desc_fab_add_speaker),
+                )
+            }
+        }
+    ) { contentPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .padding(contentPadding)
+                .testTag("SpeakersList"),
+        ) {
+            items(speakers, key = { it.id }) {
+                SpeakerCard(it, onClick = {})
+            }
+        }
+    }
 }
 
 @Composable
